@@ -35,17 +35,23 @@ const searchFood = () =>{
         //  console.log(meal)
      });   
  }
-const loadMealDetail = mealId =>{
+const loadMealDetail = async mealId =>{
     const url =`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`
-    fetch(url)
+    
+    const res= await fetch(url)
+    const data=await res.json()
+    displayMealDetels(data.meals[0])
+
+    /* fetch(url)
     .then(res => res.json())
-    .then(data => displayMealDetels(data.meals[0]))
+    .then(data => displayMealDetels(data.meals[0])) */
     // console.log(mealId)
 }
 
 const displayMealDetels = meal =>{
     console.log(meal)
     const mealDetails = document.getElementById("meal-details")
+    mealDetails.textContent=''
     const div = document.createElement('div')
     div.classList.add('card')
     div.innerHTML=`
