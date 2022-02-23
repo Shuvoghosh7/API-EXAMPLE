@@ -12,17 +12,31 @@ const displyCountries = countries =>{
     } */
     const countryContainer = document.getElementById("countries")
     countries.forEach(country => {
-        console.log(country)
         const div = document.createElement('div')
         div.classList.add('countries')
-        const h1 =document.createElement('h1')
-        h1.style.color='green'
-        h1.innerText=`countries common Name: ${country.name.common}`
-        div.appendChild(h1)
-        const p = document.createElement('p')
-        p.style.color='red'
-        p.innerText=`Capital : ${country.capital}`
-        div.appendChild(p)
+        div.innerHTML = `
+        <h1> ${country.name.common}</h1>
+        <p> ${country.capital}</p>
+        <button onclick="countryDetails('${country.name.common}')"> Details </button>
+        `
         countryContainer.appendChild(div)
     });
+}
+
+const countryDetails = name =>{
+    const url = `https://restcountries.com/v3.1/name/${name}`
+     fetch(url)
+    .then(res => res.json())
+    .then(data => displyCountriesDetails(data[0]))
+    // console.log(url)
+}
+
+const displyCountriesDetails = country =>{
+    const countryDiv = document.getElementById("country-details")
+    countryDiv.innerHTML = `
+    <h4>Country Namne : ${country.name.common}</h4>
+    <p><b>Total population<b> : ${country.population}</p>
+    <img src="${country.flags.png}">
+    `
+    console.log(country)
 }
